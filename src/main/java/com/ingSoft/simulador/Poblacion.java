@@ -99,7 +99,7 @@ public class Poblacion implements SubjectPoblacion {
 	}
 	
 	public void animar()
-	{
+	{ 
 		for(Persona p:sanas) {
 			p.calcularVelocidad();
 			p.mover();
@@ -154,8 +154,9 @@ public class Poblacion implements SubjectPoblacion {
 	@Override
 	public void detachObserverPoblacion(ObserverPoblacion o) {
 		int i = observers.lastIndexOf(o);
+		
 		if (i>=0) {
-			
+
 			observers.remove(i);
 		}
 		
@@ -167,6 +168,10 @@ public class Poblacion implements SubjectPoblacion {
 			ObserverPoblacion observer = (ObserverPoblacion)observers.get(i);
 			observer.updatePoblacion();
 		}
+	}
+	
+	public ArrayList<ObserverPoblacion> getObserverList() {
+		return observers;
 	}
 
 

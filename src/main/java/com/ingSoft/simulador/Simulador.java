@@ -125,7 +125,7 @@ public class Simulador implements SubjectParametros {
 		transmitir();
 		dibujar();
 	}
-
+  
 	public void morirRecuperar() {
 		ArrayList<Persona> tmpRecuperadas = new ArrayList<Persona>();
 		ArrayList<Persona> tmpMuertas = new ArrayList<Persona>();
@@ -179,7 +179,6 @@ public class Simulador implements SubjectParametros {
 		for (Persona enfermo : poblacion.getEnfermas()) {
 			visor.agregarCirculo(enfermo, ColoresEstados.colorEnfermo, enfermo.getPos().getPosx(),
 					enfermo.getPos().getPosy(), 10);
-
 		}
 		for (Persona recuperado : poblacion.getRecuperadas()) {
 			visor.agregarCirculo(recuperado, ColoresEstados.colorRecuperado, recuperado.getPos().getPosx(),
@@ -208,6 +207,10 @@ public class Simulador implements SubjectParametros {
 		if (i >= 0) {
 			observers.remove(i);
 		}
+	}
+	
+	public ArrayList<ObserverParametros> getObserverList() {
+		return observers;
 	}
 	
 	@Override

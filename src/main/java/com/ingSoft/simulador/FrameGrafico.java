@@ -12,7 +12,7 @@ public class FrameGrafico extends JFrame{
 
 	public FrameGrafico() {
 		this.setLocation(600,200);
-		setTitle("Gráfico Dinámico");
+		setTitle("Grafico Dinamico");
 	}
 	
 	public void setJChart(GraphicBehaviour chart) {
