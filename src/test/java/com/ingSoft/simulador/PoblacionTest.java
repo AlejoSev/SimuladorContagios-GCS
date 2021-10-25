@@ -2,6 +2,8 @@ package com.ingSoft.simulador;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 
@@ -111,6 +113,7 @@ public class PoblacionTest {
 		}
 	}
 	
+	@Test
 	public void testSetMortalidad() {
 		Area a = new Area(100,100);
 		Poblacion p = new Poblacion(a,100,10);
@@ -137,6 +140,147 @@ public class PoblacionTest {
 		for (Persona per: p.getRecuperadas()) {
 			assertTrue(m== per.getMortalidad());
 		}
+		
+	}
+	
+	@Test
+	public void testArea() {
+		Area a = new Area(10,10);
+		Poblacion p = new Poblacion(a,100,10);
+		
+		assertEquals(a, p.getArea());
+		System.out.println("test Area");
+	}
+	
+	@Test
+	public void testCant() {
+		int cantPersonas = 100;
+		int cantEnfermos = 80;
+		Area a = new Area(100, 100);
+		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+		
+		assertEquals((cantPersonas - cantEnfermos), p.getCantSanos());
+		assertEquals(cantEnfermos, p.getCantEnfermos());
+		assertEquals(0, p.getCantMuertos());
+		assertEquals(0, p.getCantRecuperados());
+		assertEquals(cantPersonas, p.getCantPersonas());
+		
+		System.out.println("test Cant");
+				
+	}
+	
+	@Test
+	public void testAnimar() {
+		
+		int cantPersonas = 100;
+		int cantEnfermos = 80;
+	
+		Area a = new Area(100, 100);
+		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+		
+		Persona per = p.getEnfermas().get(1);
+		p.recuperarPersona(per);
+		
+		ArrayList<Persona> sanas = p.getSanas();
+		ArrayList<Persona> enfermas = p.getEnfermas();
+		ArrayList<Persona> recuperadas = p.getRecuperadas();
+
+		Long testVelXSanas = Long.valueOf(sanas.get(0).getVel().getVelx());
+		Long testPosXSanas = Long.valueOf(sanas.get(0).getPos().getPosx());
+
+		Long testVelXEnf = Long.valueOf(enfermas.get(0).getVel().getVelx());
+		Long testPosXEnf = Long.valueOf(enfermas.get(0).getPos().getPosx());
+
+		Long testVelXRec = Long.valueOf(recuperadas.get(0).getVel().getVelx());
+		Long testPosXRec = Long.valueOf(recuperadas.get(0).getPos().getPosx());
+		
+		System.out.println("testvelXsanas = "+ testVelXSanas + " testPosXSanas = "+testPosXSanas );
+		
+		p.animar();
+		
+		Long newVelXSanas = Long.valueOf(p.getSanas().get(0).getVel().getVelx());
+		Long newPosXSanas = Long.valueOf(p.getSanas().get(0).getPos().getPosx());
+
+		System.out.println("newVelXSanas = "+ newVelXSanas + " newPosXSanas = "+newPosXSanas );
+		Long newVelXEnf = Long.valueOf(p.getEnfermas().get(0).getVel().getVelx());
+		Long newPosXEnf = Long.valueOf(p.getEnfermas().get(0).getPos().getPosx());
+
+		Long newVelXRec = Long.valueOf(p.getRecuperadas().get(0).getVel().getVelx());
+		Long newPosXRec = Long.valueOf(p.getRecuperadas().get(0).getPos().getPosx());
+
+		assertTrue(newVelXSanas >= testVelXSanas);
+		assertTrue(newPosXSanas >= testPosXSanas);
+
+		assertTrue(newVelXEnf >= testVelXEnf);
+		assertTrue(newPosXEnf >= testPosXEnf);
+		
+		assertTrue(newVelXRec >= testVelXRec);
+		assertTrue(newPosXRec >= testPosXRec);
+		System.out.println("animar");
+		
+	}
+	
+	@Test
+	public void testDuracionEnfermad() {
+		
+		//El valor de duracioEnfermedad deberia disminuir para personas enfermas con la simulacion
+		int cantPersonas = 100;
+		int cantEnfermos = 80;
+		
+		Area a = new Area(100, 100);
+		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+		Simulador s = new Simulador(a, p);
+		ArrayList<Persona> enfermas = p.getEnfermas();
+		
+		
+		p.setDuracionEnfermedad(100);
+		
+		s.setVisor(VisorSimulador.getVisor());
+		
+		s.simularUnPaso();
+		
+		Long enfermasDuracion = Long.valueOf(enfermas.get(0).getDuracionEnfermedad());
+		
+		System.out.println("enfermasDuracion = "+ enfermasDuracion);
+
+		assertTrue(100 > enfermasDuracion);
+	
+	}
+	
+	@Test
+	public void testObserver() {
+		
+		int cantPersonas = 100;
+		int cantEnfermos = 80;
+		
+		Area a = new Area(100, 100);
+		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+		Simulador s = new Simulador(a, p);
+		
+		//Create and attach observer
+		ObserverPoblacion obHist= new Histogram(s);
+		ObserverPoblacion obLineChart = new LineChart(s);
+		
+		ArrayList<ObserverPoblacion> obseverList = p.getObserverList();
+	
+		assertEquals(obHist, obseverList.get(0));
+		
+		//detach every observer from list
+		p.detachObserverPoblacion(obHist);
+		p.detachObserverPoblacion(obLineChart);
+	
+		ArrayList<ObserverPoblacion> obseverListPost = p.getObserverList();
+		System.out.println("observer size = "+ obseverListPost.size());
+		assertEquals(obseverListPost.size(), 0);
+		
+		//Create observer without attachment
+		
+		ObserverPoblacion obCont = new Contador(p);
+		p.detachObserverPoblacion(obCont);
+		System.out.println("observer size = "+ obseverListPost.size());
+		assertEquals(obseverListPost.size(), 0);
+		
+		
 	}
 
 }

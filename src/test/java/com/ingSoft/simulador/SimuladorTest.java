@@ -2,6 +2,8 @@ package com.ingSoft.simulador;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 public class SimuladorTest {
 
@@ -18,6 +20,7 @@ public class SimuladorTest {
 		assertEquals(0,p.getEnfermas().size());
 		assertEquals(10,p.getMuertas().size());
 		assertEquals(0,p.getRecuperadas().size());
+		//System.out.println("Todos deberian morir\n");
 	}
 	
 	@Test
@@ -94,5 +97,153 @@ public class SimuladorTest {
 	public void testDibujar() {
 		// fail("Not yet implemented");
 	}
+   @Test
+    public void testGetPasoActual(){
+        Simulador s = new Simulador();
+
+        assertTrue(s.getPasoActual() == 0);
+        
+        System.out.println("testGetPasoActual");
+    }
+   
+   @Test
+   public void testVisor(){
+       Simulador s = new Simulador();
+       s.setVisor(VisorSimulador.getVisor());
+
+       assertEquals(VisorSimulador.getVisor(), s.getVisor());
+   }
+   
+   @Test
+   public void testPoblacion(){
+       Area a = new Area(10, 10);
+       Poblacion p = new Poblacion(a, 100, 20);
+       Simulador s = new Simulador();
+
+       s.setPoblacion(p);
+
+       assertEquals(p, s.getPoblacion());
+   }
+@Test
+   public void testDuracionEnfermedad(){
+	   int cantPersonas = 100;
+	   int cantEnfermos = 80;
+	   Area a = new Area(100, 100);
+	   Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+	   Simulador s = new Simulador(a, p);
+
+       s.setDuracionEnfermedad(120);
+       System.out.println("duracionEnfermedad = " + s.getDuracionEnfermedad());
+
+      // assertTrue(s.getDuracionEnfermedad() == 120);
+   }
+
+   @Test
+   public void testMovilidad(){
+	   
+	   int cantPersonas = 100;
+	   int cantEnfermos = 80;
+	   Area a = new Area(100, 100);
+	   Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+       Simulador s = new Simulador(a, p);
+
+       s.setMovilidad(30);
+       
+       System.out.println("s.getMovilidad() "+ s.getMovilidad());
+      
+   }
+
+   @Test
+   public void testMortalidad(){
+       
+	   int cantPersonas = 100;
+	   int cantEnfermos = 80;
+	   float tasa = 0.5f;
+	   Area a = new Area(100, 100);
+	   Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+       Simulador s = new Simulador(a, p);
+       
+
+       s.setMortalidad(tasa);
+
+       assertTrue(s.getMortalidad() == tasa);
+   }
+
+   @Test
+   public void testTiempoSimulacion(){
+       Simulador s = new Simulador();
+
+       s.setTiempoSimulacion(200);
+
+       assertTrue(s.getTiempoSimulacion() == 200);
+   }
+
+   @Test
+   public void testRadioContagio(){
+       Simulador s = new Simulador();
+
+       s.setRadioContagio(20);
+
+       assertTrue(s.getRadioContagio() == 20);
+   }
+   
+   @Test
+	public void testObserver() {
+		
+		int cantPersonas = 100;
+		int cantEnfermos = 80;
+		
+		Area a = new Area(100, 100);
+		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+		Simulador s = new Simulador(a, p);
+		
+		//Create and attach observer
+		ObserverParametros log = new Log(s);
+		//s.notifyObserverParametros();
+		ArrayList<ObserverParametros> obseverList = s.getObserverList();
+	
+		assertEquals(log, obseverList.get(0));
+		
+		//detach every observer from list
+		s.detachObserverParametros(log);
+		
+	
+		ArrayList<ObserverParametros> obseverListPost = s.getObserverList();
+		System.out.println("observer size = "+ obseverListPost.size());
+		assertEquals(obseverListPost.size(), 0);
+		
+		//detach twice 
+		s.detachObserverParametros(log);
+		s.detachObserverParametros(log);
+		assertEquals(obseverListPost.size(), 0);
+		
+	}
+   
+   @Test
+   public void simularTest() {
+		//El valor de duracioEnfermedad deberia disminuir para personas enfermas con la simulacion
+		int cantPersonas = 100;
+		int cantEnfermos = 80;
+		int tasaMortalidad = 10, movilidad = 10, tiempoIncubacion = 1, tiempoSim = 10, radioContagio = 1; 
+		
+		int pasoInit;
+		
+		Area a = new Area(100, 100);
+		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+		Simulador s = new Simulador(a, p);
+		s.setVisor(VisorSimulador.getVisor());
+		s.setMortalidad((float)(0.01*tasaMortalidad));
+		s.setMovilidad(movilidad);
+		s.setDuracionEnfermedad(tiempoIncubacion);
+		s.setTiempoSimulacion(tiempoSim);
+		s.setRadioContagio(radioContagio);
+		
+	
+		pasoInit = s.getPasoActual();
+		
+		s.simular();
+
+		assertTrue(s.getPasoActual() > pasoInit);
+   }
 
 }

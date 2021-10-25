@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 public class PosicionTest {
-
+ 
 	@Test
 	public void testPosicionArea() {
 		int ancho =10;
