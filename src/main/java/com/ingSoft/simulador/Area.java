@@ -4,7 +4,7 @@ package com.ingSoft.simulador;
 //prueba 3
 
 //prueba 4
-
+//prueba 5
 public class Area {
 	private int ancho;
 	private int alto;
