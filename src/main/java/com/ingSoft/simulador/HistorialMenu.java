@@ -93,8 +93,9 @@ public class HistorialMenu implements ActionListener {
 			ventana.setVisible(true);
 			historial.setVisible(false);
 		}
-		else if(e.getSource()==enterButton) {
-			
-		}
+//		else if(e.getSource()==enterButton) {
+//			
+//		}
 	}
+	
 }

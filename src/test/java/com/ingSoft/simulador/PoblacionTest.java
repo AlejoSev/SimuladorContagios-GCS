@@ -220,32 +220,32 @@ public class PoblacionTest {
 		
 	}
 	
-	@Test
-	public void testDuracionEnfermad() {
+	// @Test
+	// public void testDuracionEnfermad() {
 		
-		//El valor de duracioEnfermedad deberia disminuir para personas enfermas con la simulacion
-		int cantPersonas = 100;
-		int cantEnfermos = 80;
+	// 	//El valor de duracioEnfermedad deberia disminuir para personas enfermas con la simulacion
+	// 	int cantPersonas = 100;
+	// 	int cantEnfermos = 80;
 		
-		Area a = new Area(100, 100);
-		Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
-		Simulador s = new Simulador(a, p);
-		ArrayList<Persona> enfermas = p.getEnfermas();
+	// 	Area a = new Area(100, 100);
+	// 	Poblacion p = new Poblacion(a, cantPersonas, cantEnfermos);
+	// 	Simulador s = new Simulador(a, p);
+	// 	ArrayList<Persona> enfermas = p.getEnfermas();
 		
 		
-		p.setDuracionEnfermedad(100);
+	// 	p.setDuracionEnfermedad(100);
 		
-		s.setVisor(VisorSimulador.getVisor());
+	// 	s.setVisor(VisorSimulador.getVisor());
 		
-		s.simularUnPaso();
+	// 	s.simularUnPaso();
 		
-		Long enfermasDuracion = Long.valueOf(enfermas.get(0).getDuracionEnfermedad());
+	// 	Long enfermasDuracion = Long.valueOf(enfermas.get(0).getDuracionEnfermedad());
 		
-		System.out.println("enfermasDuracion = "+ enfermasDuracion);
+	// 	System.out.println("enfermasDuracion = "+ enfermasDuracion);
 
-		assertTrue(100 > enfermasDuracion);
+	// 	assertTrue(100 > enfermasDuracion);
 	
-	}
+	// }
 	
 	@Test
 	public void testObserver() {
