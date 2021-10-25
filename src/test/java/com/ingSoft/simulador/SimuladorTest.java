@@ -182,9 +182,9 @@ public class SimuladorTest {
    public void testRadioContagio(){
        Simulador s = new Simulador();
 
-       s.setRadioContagio(20);
+       s.setRadioContagio(25);
 
-       assertTrue(s.getRadioContagio() == 20);
+       assertTrue(s.getRadioContagio() == 25);
    }
    
    @Test
