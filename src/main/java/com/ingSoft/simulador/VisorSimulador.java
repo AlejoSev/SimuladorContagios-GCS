@@ -63,7 +63,7 @@ public class VisorSimulador
     {
     	this.ancho = ancho;
     	this.alto = altura;
-        frame  = new JFrame();
+        frame  = new JFrame()
         panel = new CristalPanel();
         frame.setContentPane(panel);
         frame.setTitle(titulo);
